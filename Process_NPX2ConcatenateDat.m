@@ -78,7 +78,36 @@ end
 dlmwrite(fullfile(destDir,'Epoch_TS.csv'),epochs,'precision','%.6f');
 
 %% Concatenate Data for Kilosort (or others)
-%Process_ConcatenateBinFiles(recName,mergename);
+
+% Concatenating NPX bin files
+fprintf('Concatening NPX bin files\n',mergename);
+
+if nRec>1
+    cmdline = 'cat ';
+    for ii=1:nRec-1
+        cmdline = [cmdline fullfile(recName{ii}, [recName{ii} '_t0.imec0.ap.bin '])];
+    end
+    cmdline = [cmdline fullfile(recName{ii+1},[recName{ii+1} '_t0.imec0.ap.bin']) ' > ' fullfile(destDir,[mergename '.dat'])];
+else    
+    cmdline = ['mv ' fullfile(recName{ii},[recName{ii} '_t0.imec0.ap.bin ']) fullfile(destDir,[mergename '.dat'])];
+end
+fprintf('Launch command %s\n\n',cmdline)
+system(cmdline);
+
+%% Concatenating NIDQ bin files
+fprintf('Concatening NIDQ bin files\n',mergename);
+
+if nRec>1
+    cmdline = 'cat ';
+    for ii=1:nRec-1
+        cmdline = [cmdline fullfile(recName{ii}, [recName{ii} '_t0.nidq.bin '])];
+    end
+    cmdline = [cmdline fullfile(recName{ii+1},[recName{ii+1} '_t0.nidq.bin']) ' > ' fullfile(destDir,[mergename '.nidq.dat'])];
+else    
+    cmdline = ['mv ' fullfile(recName{ii},[recName{ii} '_t0.nidq.bin ']) fullfile(destDir,[mergename '.nidq.dat'])];
+end
+fprintf('Launch command %s\n\n',cmdline)
+system(cmdline);
 
 %% Copy files to new final directory
 %mkdir(mergename);
@@ -98,21 +127,6 @@ dlmwrite(fullfile(destDir,'Epoch_TS.csv'),epochs,'precision','%.6f');
 %     end
 % end
 
-
-% Concatenating NIDQ bin files
-fprintf('Concatening NIDQ bin files\n',mergename);
-
-if nRec>1
-    cmdline = 'cat ';
-    for ii=1:nRec-1
-        cmdline = [cmdline fullfile(recName{ii}, [recName{ii} '_t0.nidq.bin '])];
-    end
-    cmdline = [cmdline fullfile(recName{ii+1},[recName{ii+1} '_t0.nidq.bin']) ' > ' fullfile(destDir,[mergename '.nidq.dat'])];
-else    
-    cmdline = ['mv ' fullfile(recName{ii},[recName{ii} '_t0.nidq.bin ']) fullfile(destDir,[mergename '.nidq.dat'])];
-end
-fprintf('Launch command %s\n\n',cmdline)
-system(cmdline);
 
 
 

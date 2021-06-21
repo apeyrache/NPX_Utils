@@ -35,7 +35,7 @@
 % 02-may-11 case of zero spikes handled
 
 
-function wavef = NPX_GetWaveforms(filebase, NSAMPLES,PEAKSAMPLE)
+function wavef = NPX_GetWaveforms(filebase, NSAMPLES,PEAKSAMPLE);
 
 % arguments
 nargs = nargin;
